@@ -1,0 +1,14 @@
+what is the flow the data one this structure.
+api_client.dart file
+it is mainly responsible for all the http method request and handle headers like token.
+it only call the node.js backend.
+
+
+service file.
+user_service.dart file (it has the method of post, put and get actually call with UI)
+this mainly handle the path like /profile for get/post/put all this method logic.
+
+
+the main flow
+“UI → Service → Client → Backend”
+service -> which handle the main methods.
