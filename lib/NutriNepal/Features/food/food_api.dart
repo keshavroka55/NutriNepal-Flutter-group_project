@@ -24,11 +24,8 @@ class FoodApi {
     print('Response from API: $response');
 
     // Parse the actual list
-    final foodsList = (response['foods'] as List)
-        .map((json) => Food.fromJson(json))
-        .toList();
-
-    return foodsList;
+    final dataList = response['data'] as List<dynamic>? ?? [];
+    return dataList.map((e) => Food.fromJson(e)).toList();
   }
 
 

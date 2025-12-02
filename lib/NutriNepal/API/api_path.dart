@@ -14,8 +14,8 @@ class ApiRoutes {
 
 
   // Auth
-  static const String login = "/api/auth/v1/login";
-  static const String register = "/api/auth/v1/register";
+  static const String login = "$baseUrl/api/auth/v1/login";
+  static const String register = "$baseUrl/api/auth/v1/register";
 
   // Foods
   // GET /api/foods?q=...&page=...
@@ -30,8 +30,4 @@ class ApiRoutes {
 
   // Profile (example)
   static const String userProfile = "/api/v1/user/profile";
-
-// How to add new route:
-// 1. Add a new static const String here.
-// 2. Use that string from the relevant service file.
 }

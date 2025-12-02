@@ -23,20 +23,23 @@ class _FoodScreenState extends State<FoodScreen> {
     loadFoods();
   }
 
+  /// Load foods from API
   Future<void> loadFoods() async {
-    setState(() => loading = true);
+    setState(() => loading = true); // start spinner
     try {
       final foodApi = Provider.of<FoodApi>(context, listen: false);
-      final result = await foodApi.searchFoods(q: searchQuery);
+      final result = await foodApi.searchFoods(q: searchQuery); // returns List<Food>
       setState(() => foods = result);
     } catch (e) {
+      setState(() => foods = []); // empty list on error
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error: $e')));
+          .showSnackBar(SnackBar(content: Text('Failed to load foods: $e')));
     } finally {
-      setState(() => loading = false); // spinner stops
+      setState(() => loading = false); // stop spinner
     }
   }
 
+  /// Handle search
   void searchFood(String query) {
     searchQuery = query;
     loadFoods();
@@ -63,6 +66,8 @@ class _FoodScreenState extends State<FoodScreen> {
       ),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : foods.isEmpty
+          ? const Center(child: Text('No foods found'))
           : ListView.builder(
         itemCount: foods.length,
         itemBuilder: (context, index) {
