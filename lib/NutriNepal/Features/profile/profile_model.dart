@@ -14,6 +14,8 @@ class UserProfile {
   final double? dailyProtein;
   final double? dailyFat;
   final double? dailyCarbs;
+  final String? photoUrl;
+
 
   UserProfile({
     required this.userId,
@@ -29,6 +31,7 @@ class UserProfile {
     this.dailyProtein,
     this.dailyFat,
     this.dailyCarbs,
+    this.photoUrl,
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {

@@ -3,6 +3,7 @@ import '../../Features/FoodScanning/food_recognition_screen.dart';
 import '../../Features/food/food_screen.dart';
 import '../../Features/homepage.dart';
 import '../../Features/profile/profile_screen.dart';
+import '../../Features/profile/profile_screen2.dart';
 
 
 class BottomControlPanel extends StatelessWidget {
@@ -18,7 +19,7 @@ class BottomControlPanel extends StatelessWidget {
         _buildNavButton(context, 0, Icons.home, 'HomePage', HomeScreen()),
         _buildNavButton(context, 1, Icons.add_circle, 'Add', FoodScreen()),
         _buildNavButton(context, 2, Icons.scanner, 'Scan', FoodRecognitionScreen()),
-        _buildNavButton(context, 3, Icons.settings, 'Profile', ProfileScreen()),
+        _buildNavButton(context, 3, Icons.settings, 'Profile', ProfileScreen2()),
       ],
     );
   }
