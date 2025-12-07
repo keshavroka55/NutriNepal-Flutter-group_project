@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../UI/splashes/app_colors.dart';
 import '../../UI/widgets/bottom_control_panel.dart';
+import '../Auth2/auth_service.dart';
+import '../Auth2/login_page.dart';
 import 'profile_api.dart';
 import 'profile_model.dart';
 import 'profile_update_screen.dart';
@@ -172,18 +174,17 @@ class _ProfileScreenState extends State<ProfileScreen2> {
                   title: const Text('Logout'),
                   content: const Text('Are you sure you want to logout?'),
                   actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(ctx),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(ctx);
-                        _logout();
+                    ElevatedButton(
+                      onPressed: () async {
+                        final authService = Provider.of<AuthService>(context, listen: false);
+                        await authService.logout();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => const LoginScreen2()),
+                        );
                       },
-                      style: TextButton.styleFrom(foregroundColor: Colors.red),
-                      child: const Text('Logout'),
-                    ),
+                      child: const Text("Logout"),
+                    )
                   ],
                 ),
               ),

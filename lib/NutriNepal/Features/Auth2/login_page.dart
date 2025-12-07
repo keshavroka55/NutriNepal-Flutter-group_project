@@ -15,57 +15,38 @@ class LoginScreen2 extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen2> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   bool loading = false;
 
   Future<void> login() async {
+    if (!_formKey.currentState!.validate()) return;
+
     setState(() => loading = true);
 
     final authService = Provider.of<AuthService>(context, listen: false);
-    final apiClient = Provider.of<ApiClient>(context, listen: false);
 
-    try {
-      final result = await authService.login(
-        emailController.text.trim(),
-        passwordController.text.trim(),
+    final result = await authService.login(
+      emailController.text.trim(),
+      passwordController.text.trim(),
+    );
+
+    setState(() => loading = false);
+
+    // If token saved → login success
+    if (authService.isLoggedIn) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
       );
-
-      debugPrint('login response: $result');
-      debugPrint('token after login: ${apiClient.token}');
-
-      if (authService.isLoggedIn) {
-        if (!mounted) return;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
-        );
-        return;
-      }
-
-      // login failed -> show message
-      final msg = result['message'] ?? result['error'] ?? 'Login failed';
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(msg)));
-      }
-    } catch (e, st) {
-      debugPrint('Login error: $e\n$st');
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Login failed: $e")));
-      }
-    } finally {
-      if (mounted) setState(() => loading = false);
+      return;
     }
-  }
 
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
+    // Show backend error
+    final msg = result['error'] ?? result['message'] ?? 'Login failed';
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
   @override
@@ -73,40 +54,49 @@ class _LoginScreenState extends State<LoginScreen2> {
     return Scaffold(
       appBar: AppBar(title: const Text("Login")),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(labelText: "Email"),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: passwordController,
-              decoration: const InputDecoration(labelText: "Password"),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            loading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-              onPressed: login,
-              child: const Text("Login"),
-            ),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const RegisterScreen2()),
-                );
-              },
-              child: const Text("Don't have an account? Register"),
-            ),
-          ],
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: emailController,
+                decoration: const InputDecoration(labelText: "Email"),
+                validator: (v) =>
+                v == null || v.isEmpty ? "Email is required" : null,
+              ),
+              const SizedBox(height: 10),
+
+              TextFormField(
+                controller: passwordController,
+                decoration: const InputDecoration(labelText: "Password"),
+                obscureText: true,
+                validator: (v) =>
+                v == null || v.isEmpty ? "Password is required" : null,
+              ),
+              const SizedBox(height: 25),
+
+              loading
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                onPressed: login,
+                child: const Text("Login"),
+              ),
+
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const RegisterScreen2()),
+                  );
+                },
+                child: const Text("Don't have an account? Register"),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-

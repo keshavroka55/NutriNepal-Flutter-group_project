@@ -19,6 +19,13 @@ class AuthService {
     _token = token;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_token', token);
+
+    // IMPORTANT: notify ApiClient so other requests include this token
+    try {
+      apiClient.updateToken(token);
+    } catch (_) {
+      debugPrint('AuthService._saveToken -> apiClient.updateToken failed or not implemented');
+    }
   }
 
   // Load token from storage
@@ -29,6 +36,8 @@ class AuthService {
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     final url = Uri.parse(ApiRoutes.login); // correct
+
+
 
     // Directly use http.post here (Option 2)
     final response = await http.post(
@@ -75,15 +84,24 @@ class AuthService {
 
       final data = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        final token = data['auth_token'];
-        if (token != null) await _saveToken(token);
+      // treat 200 and 201 as success from server
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // try to extract token if backend returned one
+        final token = data['token'] ?? data['accessToken'] ?? data['access_token'] ?? data['auth_token'];
+        if (token != null) {
+          await _saveToken(token.toString()); // also updates apiClient if _saveToken does that
+          return {'ok': true, 'status': response.statusCode, 'token': token, 'data': data};
+        } else {
+          // registration succeeded but no token returned
+          return {'ok': true, 'status': response.statusCode, 'token': null, 'data': data};
+        }
+      } else {
+        final message = data['message'] ?? data['error'] ?? 'Registration failed';
+        return {'ok': false, 'status': response.statusCode, 'message': message, 'data': data};
       }
-
-      return data;
     } catch (e) {
       debugPrint("Register error: $e");
-      return {"error": "Request failed or timed out"};
+      return {"ok": false, "status": 0, "message": "Request failed or timed out"};
     }
   }
 

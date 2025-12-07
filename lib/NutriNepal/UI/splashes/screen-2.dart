@@ -35,7 +35,7 @@ class Onboarding2 extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(32),
                   child: Image.asset(
-                    'assets/images/two.jpeg', // Your tracking/food logging illustration
+                    'assets/images/two.jpg', // Your tracking/food logging illustration
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),
