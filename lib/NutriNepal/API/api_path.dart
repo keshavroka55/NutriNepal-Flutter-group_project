@@ -5,12 +5,12 @@
 
 // Base URL of your Node backend API
 // the mongodb cluster is created on learnpoadcast gmail id ok..
-const String apiBaseUrl = "https://nutrinepal-node-api.onrender.com";
+// const String apiBaseUrl = "https://nutrinepal-node-api.onrender.com";
 
 class ApiRoutes {
   // Change this to your backend URL (no trailing slash).
-  static const String baseUrl = "https://nutrinepal-node-api.onrender.com";
-  // static const String baseUrl = "http://10.0.2.2:5000";
+  // static const String baseUrl = "https://nutrinepal-node-api.onrender.com";
+  static const String baseUrl = "http://10.0.2.2:5000";
 
   // static const String baseUrl = "http://192.168.1.70:5000"; // while testing the external device..
 
