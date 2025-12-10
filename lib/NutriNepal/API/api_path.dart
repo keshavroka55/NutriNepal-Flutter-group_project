@@ -9,9 +9,8 @@
 
 class ApiRoutes {
   // Change this to your backend URL (no trailing slash).
-  // static const String baseUrl = "https://nutrinepal-node-api.onrender.com";
-  static const String baseUrl = "http://10.0.2.2:5000";
-
+  static const String baseUrl = "https://nutrinepal-node-api.onrender.com";
+  // static const String baseUrl = "http://10.0.2.2:5000";
   // static const String baseUrl = "http://192.168.1.70:5000"; // while testing the external device..
 
 
@@ -22,7 +21,6 @@ class ApiRoutes {
   // Foods
   // GET /api/foods?q=...&page=...
   static const String foodsList = "/api/foods";
-  // GET /api/foods/:id -> build in service: "$foodsDetail/$id"
   static const String foodsDetail = "/api/foods";
 
   // Logs (user logs)

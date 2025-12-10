@@ -1,22 +1,27 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:nutrinepal_1/NutriNepal/API/api_client.dart';
+import 'package:nutrinepal_1/NutriNepal/Features/Auth2/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../API/api_path.dart';
 
-class AuthService {
+class AuthService with ChangeNotifier {
+  User? _currentUser;
   final ApiClient apiClient;   // keep the shared ApiClient instance
   String? _token;
+  User? get currentUser => _currentUser;
+  bool _isTokenValidated = false; // Add this flag
 
   AuthService(this.apiClient);
 
-  bool get isLoggedIn => _token != null && _token!.isNotEmpty;
+  bool get isLoggedIn => _token != null && _token!.isNotEmpty && _isTokenValidated;
   String? get token => _token;
 
   // Save token locally
   Future<void> _saveToken(String token) async {
     _token = token;
+    _isTokenValidated = true;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_token', token);
 
@@ -26,12 +31,77 @@ class AuthService {
     } catch (_) {
       debugPrint('AuthService._saveToken -> apiClient.updateToken failed or not implemented');
     }
+    notifyListeners();
   }
 
   // Load token from storage
   Future<void> loadTokenFromStorage() async {
     final prefs = await SharedPreferences.getInstance();
     _token = prefs.getString('auth_token');
+
+    // If token exists, validate it
+    if (_token != null && _token!.isNotEmpty) {
+      await _validateToken(); // Check if token works with current server
+    }
+
+    // Load saved user
+    final savedUser = prefs.getString('auth_user');
+    if (savedUser != null) {
+      _currentUser = User.fromJson(jsonDecode(savedUser));
+      notifyListeners();
+
+    }
+  }
+  // Add token validation method
+  Future<void> _validateToken() async {
+    if (_token == null || _token!.isEmpty) {
+      _isTokenValidated = false;
+      return;
+    }
+
+    try {
+      // Try a simple request to check if token works
+      final response = await http.get(
+        Uri.parse('${ApiRoutes.baseUrl}/api/foods'),
+        headers: {
+          'Authorization': 'Bearer $_token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      // If 401, token is invalid
+      if (response.statusCode == 401) {
+        debugPrint('⚠️ Token validation failed: Token invalid');
+        _isTokenValidated = false;
+        await _clearInvalidToken();
+      } else if (response.statusCode == 200) {
+        debugPrint('✅ Token validation successful');
+        _isTokenValidated = true;
+      } else {
+        debugPrint('⚠️ Token validation: Status ${response.statusCode}');
+        _isTokenValidated = false;
+      }
+    } catch (e) {
+      debugPrint('❌ Token validation error: $e');
+      _isTokenValidated = false;
+      await _clearInvalidToken();
+    }
+  }
+
+  // Clear invalid token
+  Future<void> _clearInvalidToken() async {
+    _token = null;
+    _isTokenValidated = false;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('auth_token');
+    await prefs.remove('auth_user');
+    apiClient.updateToken(null); // Clear token from API client
+    notifyListeners();
+  }
+
+  // Add logout method
+  Future<void> logout() async {
+    await _clearInvalidToken();
   }
 
   Future<Map<String, dynamic>> login(String email, String password) async {
@@ -56,6 +126,14 @@ class AuthService {
     if (response.statusCode == 200) {
       final token = data['token'] ?? data['accessToken'] ?? data['access_token'];
       if (token != null) await _saveToken(token.toString());
+    }
+    // Save user
+    if (data['user'] != null) {
+      _currentUser = User.fromJson(data['user']);
+
+      // Store user in SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('auth_user', jsonEncode(_currentUser!.toJson()));
     }
 
     return data;
@@ -105,10 +183,11 @@ class AuthService {
     }
   }
 
-  Future<void> logout() async {
-    _token = null;
-    apiClient.updateToken(null);
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('auth_token');
-  }
+  // this work for localhost.
+  // Future<void> logout() async {
+  //   _token = null;
+  //   apiClient.updateToken(null);
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.remove('auth_token');
+  // }
 }

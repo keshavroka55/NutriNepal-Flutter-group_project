@@ -70,15 +70,16 @@ class Onboarding2 extends StatelessWidget {
                 ),
               ),
 
-              const Spacer(flex: 3),
+              // CHANGED: Replace Spacer with SizedBox for fixed gap
+              const SizedBox(height: 20), // Fixed gap instead of flexible spacer
 
-              // Bottom navigation: Back + Next (big orange button)
+              // Final action: Back + "Get Started" button
               Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 40.0), // CHANGED: Increased bottom padding
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Back button — clear but not distracting
+                    // Subtle Back button
                     TextButton(
                       onPressed: () => Navigator.pop(context),
                       child: Text(
@@ -91,15 +92,45 @@ class Onboarding2 extends StatelessWidget {
                       ),
                     ),
 
-                    // Big energetic Next button
-                    FloatingActionButton.large(
-                      backgroundColor: NutriColors.accent, // Vibrant orange
-                      elevation: 8,
-                      onPressed: () => Navigator.pushNamed(context, '/onboarding3'),
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 28,
-                        color: Colors.white,
+                    // CHANGED: Using ElevatedButton instead of FloatingActionButton.extended for better control
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/onboarding3', // or '/home', '/login', etc.
+                              (route) => false,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: NutriColors.accent, // Energetic orange
+                        foregroundColor: Colors.white,
+                        elevation: 10,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50), // Pill shape
+                        ),
+                        shadowColor: Colors.black.withOpacity(0.2),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Next',
+                            style: TextStyle(
+                              fontSize: 16, // CHANGED: Slightly smaller font
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                          SizedBox(width: 8), // Space between text and icon
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16, // CHANGED: Smaller icon
+                          ),
+                        ],
                       ),
                     ),
                   ],

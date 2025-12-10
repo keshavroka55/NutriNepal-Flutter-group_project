@@ -1,6 +1,8 @@
 // lib/src/features/logs/logs_api.dart
 // Service layer for logs: add log, history, totals.
 
+import 'package:flutter/cupertino.dart';
+
 import '../../API/api_client.dart';
 import '../../API/api_path.dart';
 

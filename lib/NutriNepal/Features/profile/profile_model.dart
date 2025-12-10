@@ -1,69 +1,73 @@
-// lib/NutriNepal/Features/profile/profile_model.dart
-
 class UserProfile {
-  final String userId;
-  final String fullName;
+  final String username;
   final String email;
-  final String gender; // 'male','female','other','prefer_not_to_say'
+  final String gender; // male, female, other, prefer_not_to_say
   final int? age;
   final double? height; // cm
   final double? weight; // kg
   final String? goal;
-  final String activityLevel; // 'sedentary','light','moderate','active','very_active'
-  final double? dailyCalories;
-  final double? dailyProtein;
-  final double? dailyFat;
-  final double? dailyCarbs;
+  final String activityLevel; // sedentary, light, moderate, active, very_active
   final String? photoUrl;
 
+  // ⭐ Macro values
+  final int? dailyCalories;
+  final int? dailyProtein;
+  final int? dailyFat;
+  final int? dailyCarbs;
 
   UserProfile({
-    required this.userId,
-    required this.fullName,
+    required this.username,
     required this.email,
     required this.gender,
     this.age,
     this.height,
     this.weight,
-    this.goal = "maintain_weight",
-    this.activityLevel = 'light',
+    this.goal,
+    required this.activityLevel,
+    this.photoUrl,
     this.dailyCalories,
     this.dailyProtein,
     this.dailyFat,
     this.dailyCarbs,
-    this.photoUrl,
   });
 
+  // ---------- JSON → MODEL ----------
   factory UserProfile.fromJson(Map<String, dynamic> json) {
-    double _toDouble(dynamic v) {
-      if (v == null) return 0.0;
-      if (v is double) return v;
-      if (v is int) return v.toDouble();
-      if (v is String) return double.tryParse(v) ?? 0.0;
-      return 0.0;
+    double? _toDouble(dynamic value) {
+      if (value == null) return null;
+      if (value is double) return value;
+      if (value is int) return value.toDouble();
+      if (value is String) return double.tryParse(value);
+      return null;
+    }
+
+    int? _toInt(dynamic value) {
+      if (value == null) return null;
+      if (value is int) return value;
+      if (value is String) return int.tryParse(value);
+      return null;
     }
 
     return UserProfile(
-      userId: json['userId']?.toString() ?? json['_id']?.toString() ?? '',
-      fullName: json['name'] ?? json['name'] ?? '',
+      username: json['username'] ?? '',
       email: json['email'] ?? '',
       gender: json['gender'] ?? 'prefer_not_to_say',
-      age: json['age'] != null ? int.tryParse(json['age'].toString()) : null,
-      height: json['height'] != null ? _toDouble(json['height']) : null,
-      weight: json['weight'] != null ? _toDouble(json['weight']) : null,
-      goal: json['goal'] ?? 'maintain_weight',
+      age: _toInt(json['age']),
+      height: _toDouble(json['height']),
+      weight: _toDouble(json['weight']),
+      goal: json['goal'],
       activityLevel: json['activityLevel'] ?? 'light',
-      dailyCalories: json['dailyCalories'] != null ? _toDouble(json['dailyCalories']) : null,
-      dailyProtein: json['dailyProtein'] != null ? _toDouble(json['dailyProtein']) : null,
-      dailyFat: json['dailyFat'] != null ? _toDouble(json['dailyFat']) : null,
-      dailyCarbs: json['dailyCarbs'] != null ? _toDouble(json['dailyCarbs']) : null,
+      dailyCalories: _toInt(json['dailyCalories']),
+      dailyProtein: _toInt(json['dailyProtein']),
+      dailyFat: _toInt(json['dailyFat']),
+      dailyCarbs: _toInt(json['dailyCarbs']),
     );
   }
 
+  // ---------- MODEL → JSON ----------
   Map<String, dynamic> toJson() {
     return {
-      'userId': userId,
-      'name': fullName,
+      'username': username,
       'email': email,
       'gender': gender,
       'age': age,

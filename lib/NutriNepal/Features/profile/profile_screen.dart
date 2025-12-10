@@ -37,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } catch (e, st) {
       debugPrint('getProfile error: $e\n$st');
       setState(() {
-        error = 'Failed to load profile';
+        error = 'Failed to load profile the first screen';
       });
     } finally {
       if (mounted) setState(() => loading = false);
@@ -58,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-            Text('Name: ${profile!.fullName}', style: const TextStyle(fontSize: 18)),
+            Text('Name: ${profile!.username}', style: const TextStyle(fontSize: 18)),
             const SizedBox(height: 8),
             Text('Email: ${profile!.email}'),
             const SizedBox(height: 8),

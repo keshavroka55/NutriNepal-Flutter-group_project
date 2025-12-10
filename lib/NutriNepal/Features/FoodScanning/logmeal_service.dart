@@ -14,7 +14,7 @@ class LogMealService {
     print("🔵 AUTH Step Started...");
     print("🔑 KEY: $consumerKey");
     print("🔐 SECRET: $consumerSecret");
-    final url = Uri.parse("https://api.logmeal.com/v2/auth/token");
+    final url = Uri.parse("https://api.logmeal.es/v2/auth/token");
     print("🌐 AUTH URL: $url");
 
     final response = await http.post(
@@ -45,7 +45,7 @@ class LogMealService {
     if (_accessToken == null) await authenticate();
 
     final url =
-    Uri.parse("https://api.logmeal.com/v2/image/segmentation/complete/food");
+    Uri.parse("https://api.logmeal.com/v2/recognition/dish");
     print("🌐 FOOD RECOGNITION URL: $url");
 
     final request = http.MultipartRequest("POST", url);

@@ -2,7 +2,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="nutrinepal_1"
+        android:label="NutriNepal"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
 

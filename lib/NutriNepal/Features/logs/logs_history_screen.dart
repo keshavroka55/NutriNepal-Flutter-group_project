@@ -43,7 +43,7 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("My Logs K")),
+      appBar: AppBar(title: const Text("My Logs ")),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -51,9 +51,9 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
         itemBuilder: (context, index) {
           final userlog = logs[index];
           return ListTile(
-            title: Text("${userlog.food} - ${userlog.quantity} ${userlog.unit}"),
+            title: Text("${userlog.food?.nameEn} - ${userlog.quantity} ${userlog.unit}"),
             subtitle: Text(
-                "${userlog.caloriesKcal} kcal | ${userlog.proteinG}g P | ${userlog.fatG}g F | ${userlog.carbsG}g C"),
+                "${userlog.food?.caloriesKcal} kcal | ${userlog.food?.proteinG}g P | ${userlog.food?.fatG}g F | ${userlog.food?.carbsG}g C"),
             trailing: Text(userlog.timestamp.toString().split(" ")[0]),
           );
         },

@@ -15,7 +15,6 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("My Daily Logs")),
       body: LogsHistoryWidget(logsApi: logsApi), // Only shows daily logs
-      bottomNavigationBar: const BottomControlPanel(currentIndex: 0),
     );
   }
 }

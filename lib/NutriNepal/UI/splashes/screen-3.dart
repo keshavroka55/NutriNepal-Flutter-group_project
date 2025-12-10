@@ -61,7 +61,7 @@ class Onboarding3 extends StatelessWidget {
               // Inspiring description
               Text(
                 'Create personalized nutrition & fitness goals. '
-                    'Track every step, celebrate wins, and become the healthiest version of yourself — with Nepal’s trusted companion by your side 🌱',
+                    'Track every step, celebrate wins, and become the healthiest version of yourself.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,
@@ -70,11 +70,12 @@ class Onboarding3 extends StatelessWidget {
                 ),
               ),
 
-              const Spacer(flex: 3),
+              // CHANGED: Replace Spacer with SizedBox for fixed gap
+              const SizedBox(height: 20), // Fixed gap instead of flexible spacer
 
-              // Final action: Back + BIG "Get Started" button
+              // Final action: Back + "Get Started" button
               Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 40.0), // CHANGED: Increased bottom padding
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -91,10 +92,8 @@ class Onboarding3 extends StatelessWidget {
                       ),
                     ),
 
-                    // Prominent "Let’s Go" button (feels like the grand finale!)
-                    FloatingActionButton.extended(
-                      backgroundColor: NutriColors.accent, // Energetic orange
-                      elevation: 10,
+                    // CHANGED: Using ElevatedButton instead of FloatingActionButton.extended for better control
+                    ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(
                           context,
@@ -102,15 +101,37 @@ class Onboarding3 extends StatelessWidget {
                               (route) => false,
                         );
                       },
-                      label: const Text(
-                        'Get Started',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: NutriColors.accent, // Energetic orange
+                        foregroundColor: Colors.white,
+                        elevation: 10,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
                         ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50), // Pill shape
+                        ),
+                        shadowColor: Colors.black.withOpacity(0.2),
                       ),
-                      icon: const Icon(Icons.arrow_forward_ios, size: 24),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Next',
+                            style: TextStyle(
+                              fontSize: 16, // CHANGED: Slightly smaller font
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                          SizedBox(width: 8), // Space between text and icon
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16, // CHANGED: Smaller icon
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

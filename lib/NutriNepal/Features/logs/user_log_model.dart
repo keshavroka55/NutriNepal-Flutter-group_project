@@ -1,5 +1,7 @@
 // lib/src/features/logs/user_log_model.dart
 // Model for user logs returned by /api/logs/add and /api/logs/history
+import 'package:flutter/cupertino.dart';
+
 import '../food/food_model.dart';
 
 class UserLog {
@@ -30,13 +32,23 @@ class UserLog {
   });
 
   factory UserLog.fromJson(Map<String, dynamic> json) {
+    DateTime parsedTimestamp;
+
+    try {
+      parsedTimestamp = json['timestamp'] != null
+          ? DateTime.parse(json['timestamp']).toLocal()
+          : DateTime.now(); // fallback if null
+    } catch (e) {
+      parsedTimestamp = DateTime.now(); // fallback if parse fails
+      debugPrint("⚠️ Failed to parse timestamp: ${json['timestamp']}");
+    }
     return UserLog(
       id: json['_id'] ?? json['id'] ?? '',
       userId: json['user']?.toString() ?? '',
       food: json['food'] != null ? Food.fromJson(Map<String, dynamic>.from(json['food'])) : null,
       quantity: (json['quantity']?.toDouble() ?? 0.0),
       unit: json['unit'] ?? 'g',
-      timestamp: json['timestamp'] != null ? DateTime.parse(json['timestamp']) : DateTime.now(),
+      timestamp: parsedTimestamp,
       caloriesKcal: json['calories_kcal'] != null ? (json['calories_kcal']?.toDouble() ?? 0.0) : null,
       proteinG: json['protein_g'] != null ? (json['protein_g']?.toDouble() ?? 0.0) : null,
       fatG: json['fat_g'] != null ? (json['fat_g']?.toDouble() ?? 0.0) : null,
@@ -51,7 +63,7 @@ class UserLog {
       'food': food?.toJson(),
       'quantity': quantity,
       'unit': unit,
-      'timestamp': timestamp.toIso8601String(),
+      'timestamp': DateTime.now().toUtc().toIso8601String(),
       'calories_kcal': caloriesKcal,
       'protein_g': proteinG,
       'fat_g': fatG,

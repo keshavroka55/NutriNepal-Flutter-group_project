@@ -1,6 +1,4 @@
-// lib/screens/welcome_screen.dart
 import 'package:flutter/material.dart';
-import '../../Features/homepage.dart';
 import 'app_colors.dart'; // adjust path as needed
 
 class WelcomeScreen extends StatelessWidget {
@@ -63,12 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () {
-                    // TODO: Later you'll check if user is logged in + profile complete
-                    // For now → go straight to Home
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => const HomeScreen()),
-                    );
+                    Navigator.pushReplacementNamed(context, "/login");
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: NutriColors.accent, // Vibrant orange
@@ -90,33 +83,6 @@ class WelcomeScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 16),
-
-              // Subtle Sign Up link
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/register');
-                },
-                child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: NutriColors.textSecondary,
-                    ),
-                    children: const [
-                      TextSpan(text: "Don't have an account? "),
-                      TextSpan(
-                        text: 'Sign Up',
-                        style: TextStyle(
-                          color: NutriColors.accent,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 32),
             ],
           ),
         ),

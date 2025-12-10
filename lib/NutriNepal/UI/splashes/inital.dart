@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import '../../Features/Auth2/auth_service.dart';
 import 'app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,9 +31,29 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    // Navigate after delay (you can adjust timing)
+    // Initialize and navigate
+    _initializeAndNavigate();
+  }
+
+  Future<void> _initializeAndNavigate() async {
+    // Navigate after delay (total 3 seconds including animation)
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
+        _navigateBasedOnAuth();
+      }
+    });
+  }
+
+  void _navigateBasedOnAuth() {
+    final authService = context.read<AuthService>();
+
+    // Add a small delay to ensure token validation completes
+    Future.delayed(Duration(milliseconds: 500), () {
+      if (authService.isLoggedIn) {
+        // User has valid token, go to homepage
+        Navigator.pushReplacementNamed(context, '/homepage');
+      } else {
+        // User is not logged in or token invalid, go to onboarding
         Navigator.pushReplacementNamed(context, '/onboarding1');
       }
     });
@@ -51,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen>
     final double maxLogoSize = 180.0;
 
     return Scaffold(
-      backgroundColor: NutriColors.primaryDark, // Deep purple background (your brand)
+      backgroundColor: NutriColors.primaryDark,
       body: SafeArea(
         child: Center(
           child: FadeTransition(
@@ -65,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
                     'assets/images/nutrinepal.png',
                     width: logoSize.clamp(100.0, maxLogoSize),
                     height: logoSize.clamp(100.0, maxLogoSize),
-                    fit: BoxFit.cover, // Important for transparent PNGs
+                    fit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox(height: 32),

@@ -58,7 +58,6 @@ class _TotalsScreenState extends State<TotalsScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomControlPanel(currentIndex: 1),
     );
   }
 }

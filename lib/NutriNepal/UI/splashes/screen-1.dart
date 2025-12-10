@@ -70,17 +70,16 @@ class Onboarding1 extends StatelessWidget {
                 ),
               ),
 
-              const Spacer(flex: 3),
-
-              // Modern bottom actions: Skip + Big Orange Next Button
+              const SizedBox(height: 20),
+              // Modern bottom actions: Skip + Custom Orange Next Button
               Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 40.0), // Bottom padding to prevent overflow
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Skip button - subtle but clear
                     TextButton(
-                      onPressed: () => Navigator.pushNamed(context, '/login'),
+                      onPressed: () => Navigator.pushNamed(context, '/welcome'),
                       child: Text(
                         'Skip',
                         style: TextStyle(
@@ -91,15 +90,44 @@ class Onboarding1 extends StatelessWidget {
                       ),
                     ),
 
-                    // Big, energetic Next button
-                    FloatingActionButton.large(
-                      backgroundColor: NutriColors.accent, // Our vibrant orange!
-                      elevation: 8,
-                      onPressed: () => Navigator.pushNamed(context, '/onboarding2'),
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 28,
-                        color: Colors.white,
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/onboarding2',
+                              (route) => false,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: NutriColors.accent, // Energetic orange
+                        foregroundColor: Colors.white,
+                        elevation: 10,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50), // Pill shape
+                        ),
+                        shadowColor: Colors.black.withOpacity(0.2),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Next',
+                            style: TextStyle(
+                              fontSize: 16, // CHANGED: Slightly smaller font
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                          SizedBox(width: 8), // Space between text and icon
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16, // CHANGED: Smaller icon
+                          ),
+                        ],
                       ),
                     ),
                   ],
