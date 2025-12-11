@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:nutrinepal_1/Learning/user_profile_model.dart';
+import 'package:nutrinepal_1/Strucutre/user_profile_model.dart';
 
 import 'api2_client2.dart';
 import 'api_route.dart';

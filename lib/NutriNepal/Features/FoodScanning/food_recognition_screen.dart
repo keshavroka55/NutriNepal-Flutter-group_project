@@ -46,7 +46,6 @@ class _FoodRecognitionScreenState extends State<FoodRecognitionScreen> {
     }
   }
 
-  /// Food Detection - Detects ONE food item at a time
   Future<void> detectFood() async {
     if (selectedImage == null) {
       _showError("Please select an image first");

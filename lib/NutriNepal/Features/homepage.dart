@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../UI/widgets/bottom_control_panel.dart';
 import 'logs/logs_api.dart';
 import 'logs/user_log_model.dart';
 

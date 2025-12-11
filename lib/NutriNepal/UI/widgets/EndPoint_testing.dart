@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
+
+// used while testing the points of node.js backend that the data is not featching
+// caused that the token is not passed successfully.
 class ApiDebugScreen extends StatefulWidget {
   @override
   _ApiDebugScreenState createState() => _ApiDebugScreenState();
@@ -9,7 +11,7 @@ class ApiDebugScreen extends StatefulWidget {
 
 class _ApiDebugScreenState extends State<ApiDebugScreen> {
   final String baseUrl = "https://nutrinepal-node-api.onrender.com";
-  String token = ""; // You need to get this from SharedPreferences
+  String token = "";
 
   List<Map<String, dynamic>> results = [];
 

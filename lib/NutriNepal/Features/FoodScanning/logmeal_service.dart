@@ -11,11 +11,11 @@ class LogMealService {
 
   /// STEP 1 → Get Access Token
   Future<void> authenticate() async {
-    print("🔵 AUTH Step Started...");
-    print("🔑 KEY: $consumerKey");
-    print("🔐 SECRET: $consumerSecret");
+    print("AUTH Step Started...");
+    print("KEY: $consumerKey");
+    print("SECRET: $consumerSecret");
     final url = Uri.parse("https://api.logmeal.es/v2/auth/token");
-    print("🌐 AUTH URL: $url");
+    print("AUTH URL: $url");
 
     final response = await http.post(
       url,
@@ -25,28 +25,28 @@ class LogMealService {
         "consumer_secret": consumerSecret,
       }),
     );
-    print("🟣 AUTH STATUS: ${response.statusCode}");
-    print("🟣 AUTH RAW RESPONSE: ${response.body}");
+    print("AUTH STATUS: ${response.statusCode}");
+    print("AUTH RAW RESPONSE: ${response.body}");
 
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       _accessToken = data["access_token"];
-      print("🟢 ACCESS TOKEN RECEIVED: $_accessToken");
+      print("ACCESS TOKEN RECEIVED: $_accessToken");
     } else {
       print(response.body);
-      throw Exception("❌ AUTH FAILED → ${response.body}");
+      throw Exception("AUTH FAILED → ${response.body}");
     }
   }
 
   /// STEP 2 → Food Recognition Endpoint
   Future<Map<String, dynamic>> recognizeFood(File image) async {
-    print("⚠ TOKEN NOT FOUND — Authenticating again...");
+    print("TOKEN NOT FOUND — Authenticating again...");
     if (_accessToken == null) await authenticate();
 
     final url =
     Uri.parse("https://api.logmeal.com/v2/recognition/dish");
-    print("🌐 FOOD RECOGNITION URL: $url");
+    print("FOOD RECOGNITION URL: $url");
 
     final request = http.MultipartRequest("POST", url);
     request.headers['Authorization'] = "Bearer $_accessToken";
@@ -73,21 +73,21 @@ class LogMealService {
     final request = http.MultipartRequest("POST", url);
     request.headers['Authorization'] = "Bearer $_accessToken";
 
-    print("📸 SENDING BARCODE IMAGE PATH: ${image.path}");
+    print("SENDING BARCODE IMAGE PATH: ${image.path}");
     request.files.add(await http.MultipartFile.fromPath("image", image.path));
 
     final streamed = await request.send();
-    print("🟣 STREAM SENT, WAITING FOR RESPONSE...");
+    print("STREAM SENT, WAITING FOR RESPONSE...");
     final response = await http.Response.fromStream(streamed);
 
-    print("🟣 BARCODE STATUS: ${response.statusCode}");
-    print("🟣 BARCODE RESPONSE: ${response.body}");
+    print("BARCODE STATUS: ${response.statusCode}");
+    print("BARCODE RESPONSE: ${response.body}");
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
       print(response.body);
-      throw Exception("❌ BARCODE FAILED → ${response.body}");
+      throw Exception("BARCODE FAILED → ${response.body}");
     }
   }
 }

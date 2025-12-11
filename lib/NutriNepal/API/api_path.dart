@@ -1,18 +1,11 @@
-// lib/src/api/api_routes.dart
-// Central place for base url and all endpoints.
-// Add endpoints here — services read these strings, so adding new endpoints
-// usually doesn't require changing other files.
-
-// Base URL of your Node backend API
-// the mongodb cluster is created on learnpoadcast gmail id ok..
-// const String apiBaseUrl = "https://nutrinepal-node-api.onrender.com";
 
 class ApiRoutes {
-  // Change this to your backend URL (no trailing slash).
+  // Created Mongodb Cluster and deployed on render.
   static const String baseUrl = "https://nutrinepal-node-api.onrender.com";
+  // While testing with Localhost.
   // static const String baseUrl = "http://10.0.2.2:5000";
-  // static const String baseUrl = "http://192.168.1.70:5000"; // while testing the external device..
-
+  // For External Mobile device.
+  // static const String baseUrl = "http://192.168.1.70:5000";
 
   // Auth
   static const String login = "$baseUrl/api/auth/v1/login";
@@ -28,6 +21,6 @@ class ApiRoutes {
   static const String logsHistory = "/api/logs/history";
   static const String logsTotals = "/api/logs/totals";
 
-  // Profile (example)
+  //User profile.
   static const String userProfile = "/api/v1/user/profile";
 }

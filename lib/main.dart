@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'NutriNepal/API/api_client.dart';
 import 'NutriNepal/Features/Auth2/auth_service.dart';
 import 'NutriNepal/Features/Auth2/login_page.dart';
@@ -9,7 +8,6 @@ import 'NutriNepal/Features/food/food_api.dart';
 import 'NutriNepal/Features/homepage2.dart';
 import 'NutriNepal/Features/logs/logs_api.dart';
 import 'NutriNepal/Features/profile/profile_api.dart';
-import 'NutriNepal/UI/splashes/inital.dart';
 import 'NutriNepal/UI/splashes/screen-1.dart';
 import 'NutriNepal/UI/splashes/screen-2.dart';
 import 'NutriNepal/UI/splashes/screen-3.dart';

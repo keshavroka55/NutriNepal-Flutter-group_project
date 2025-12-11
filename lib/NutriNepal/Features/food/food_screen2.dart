@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../UI/splashes/app_colors.dart';
 import '../../UI/widgets/bottom_control_panel.dart';
-import 'edit_food_screen.dart';
 import 'food_api.dart';
 import 'food_model.dart';
 import 'food_quality_update.dart';

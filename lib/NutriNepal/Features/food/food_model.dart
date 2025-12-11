@@ -1,5 +1,3 @@
-// lib/src/features/food/food_model.dart
-// Food model matches your backend FoodSchema fields you provided.
 
 class Food {
   final String id;

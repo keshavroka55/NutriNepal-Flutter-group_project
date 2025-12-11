@@ -60,7 +60,7 @@ class _DailyNutritionDashboardState extends State<DailyNutritionDashboard> {
   Future<void> loadDashboardData() async {
     setState(() => loading = true);
     try {
-      // 1️⃣ Fetch profile
+      // Fetch profile
       final fetchedProfile = await widget.getProfile();  // here
       debugPrint('PROFILE FETCHED (dashboard): $fetchedProfile');
       profile = fetchedProfile;

@@ -1,4 +1,3 @@
-// lib/Features/food/food_item_model.dart
 class FoodItem {
   final String name;
   final double calories;

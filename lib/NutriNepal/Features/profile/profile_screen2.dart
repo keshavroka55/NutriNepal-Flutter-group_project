@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../API/api_client.dart';
 import '../../UI/splashes/app_colors.dart';
 import '../../UI/widgets/bottom_control_panel.dart';
-import '../../UI/widgets/testing.dart';
+import '../../UI/widgets/EndPoint_testing.dart';
 import '../Auth2/auth_service.dart';
 import '../Auth2/login_page.dart';
 import '../logs/totals_screen.dart';

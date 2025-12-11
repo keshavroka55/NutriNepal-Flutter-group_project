@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nutrinepal_1/NutriNepal/UI/widgets/testing.dart';
+import 'package:nutrinepal_1/NutriNepal/UI/widgets/EndPoint_testing.dart';
 import 'package:provider/provider.dart';
 import '../../Features/FoodScanning/food_recognition_screen.dart';
 import '../../Features/food/food_screen2.dart';

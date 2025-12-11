@@ -1,5 +1,3 @@
-// lib/src/api/api2_client2.dart
-// A reusable HTTP client with proper URL handling, headers, timeout, and error processing.
 
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
