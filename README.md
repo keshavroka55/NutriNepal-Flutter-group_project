@@ -66,10 +66,10 @@ dependencies:
   provider: ^6.1.1
   flutter_secure_storage: ^8.0.0
   shared_preferences: ^2.2.2
-  image_picker: latest
-  flutter_barcode_sdk: latest
+  image_picker: ^1.0.0
+  flutter_barcode_sdk: ^2.0.0
   percent_indicator: ^4.2.5
-  intl: latest
+  intl: ^0.18.0
   smooth_page_indicator: ^1.1.0
 ```
 
@@ -237,9 +237,9 @@ This project is created for educational purposes as part of a group project.
 ## 🐛 Known Issues & Future Enhancements
 
 ### Current Limitations
-- Food recognition is currently using demo/simulated data
-- Some features may require active internet connection
-- Backend API hosted on free tier may have cold start delays
+- Food recognition returns mock/demo data for testing purposes (AI integration is in development)
+- Some features require an active internet connection to communicate with the backend API
+- Backend API hosted on free tier may have cold start delays on first request
 
 ### Planned Features
 - Offline mode support
